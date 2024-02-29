@@ -18,11 +18,6 @@
         "title": "Hello World"
       },
 			{
-				"command": "webfs.workspaceInit",
-				"title": "Setup Workspace",
-				"category": "WebFS"
-			},
-			{
 				"command": "webfs.init",
 				"title": "Create Files",
 				"category": "WebFS"
@@ -42,33 +37,10 @@
 				"title": "Add \"file.txt\"",
 				"category": "WebFS"
 			}
-		],
-		"menus": {
-			"commandPalette": [
-				{
-					"command": "webfs.init",
-					"when": "workbenchState == workspace"
-				},
-				{
-					"command": "webfs.reset",
-					"when": "workbenchState == workspace"
-				},
-				{
-					"command": "webfs.deleteFile",
-					"when": "workbenchState == workspace"
-				},
-				{
-					"command": "webfs.addFile",
-					"when": "workbenchState == workspace"
-				},
-				{
-					"command": "webfs.workspaceInit",
-					"when": "workbenchState != workspace"
-				}
-			]
-		}
+		]
 	},
   "scripts": {
+    "build": "npm run compile-web & npm run package-web",
     "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
     "pretest": "npm run compile-web",
     "vscode:prepublish": "npm run package-web",
@@ -95,7 +67,8 @@
     "@types/webpack-env": "^1.18.4",
     "assert": "^2.1.0",
     "process": "^0.11.10",
-    "path": "*"
+    "path": "*",
+    "localforage": "*"
 
   }
 }

@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 
+import localforage from 'localforage';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
@@ -82,7 +83,6 @@ export class WebFS implements vscode.FileSystemProvider {
 		const basename = path.posix.basename(uri.path);
 		const parent = this._lookupParentDirectory(uri);
 		let entry = parent.entries.get(basename);
-        console.log('writing file', content);
 		if (entry instanceof Directory) {
 			throw vscode.FileSystemError.FileIsADirectory(uri);
 		}
@@ -100,7 +100,11 @@ export class WebFS implements vscode.FileSystemProvider {
 		entry.mtime = Date.now();
 		entry.size = content.byteLength;
 		entry.data = content;
-        console.log('writing file', entry);
+        console.log('writing file', new TextDecoder().decode(entry.data));
+        localforage.setItem(uri.path, new TextDecoder().decode(entry.data)).then((res) => {
+            console.log('saved file', uri.path, res);
+        })
+        // (window as any).localStorage.setItem('tmpFS', JSON.stringify({[basename]: new TextDecoder().decode(entry.data)}))
 		this._fireSoon({ type: vscode.FileChangeType.Changed, uri });
 	}
 
